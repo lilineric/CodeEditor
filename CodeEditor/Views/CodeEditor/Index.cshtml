@@ -1,0 +1,179 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/themes/gray/easyui.css" rel="stylesheet" />
+    <link href="~/Content/themes/icon.css" rel="stylesheet" />
+    <link href="~/Content/themes/color.css" rel="stylesheet" />
+    
+    <link href="~/Content/Site.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/jquery.easyui.min.js"></script>
+    <title>Editor</title>
+</head>
+<body>
+    <div class="easyui-layout" style="width: 100%; height: 750px;">
+        <div data-options="region:'north'" style="height: 50px">
+            <p style="margin: 10px;">
+                Select Theme:
+                <select onchange="selectTheme()" id="selectTheme">
+                    <option>visual-studio-light</option>
+                    <option>zamiere</option>
+                    <option>base16-dark</option>
+                    <option>base16-light</option>
+                    <option>3024-day</option>
+                    <option>3024-night</option>
+                    <option>ambiance</option>
+                    <option>blackboard</option>
+                    <option>cobalt</option>
+                    <option>colorforth</option>
+                    <option>eclipse</option>
+                    <option>elegant</option>
+                    <option>erlang-dark</option>
+                    <option>lesser-dark</option>
+                    <option>liquibyte</option>
+                    <option>mbo</option>
+                    <option>mdn-like</option>
+                    <option>midnight</option>
+                    <option>monokai</option>
+                    <option>neat</option>
+                    <option>neo</option>
+                    <option>night</option>
+                    <option>paraiso-dark</option>
+                    <option>paraiso-light</option>
+                    <option>pastel-on-dark</option>
+                    <option>rubyblue</option>
+                    <option>solarized dark</option>
+                    <option>solarized light</option>
+                    <option>the-matrix</option>
+                    <option>tomorrow-night-bright</option>
+                    <option>tomorrow-night-eighties</option>
+                    <option>ttcn</option>
+                    <option>twilight</option>
+                    <option>vibrant-ink</option>
+                    <option>xq-dark</option>
+                    <option>xq-light</option>
+                    <option>zenburn</option>
+                </select>
+                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="restore()">Restore</a>
+                <span style="margin: 5px; font-weight: bold" id="filePathText"></span>
+                <span style="color: red;">Ctrl+j</span>：Auto complate；
+                <span style="color: red;">F11</span>：Full screen；
+                <span style="color: red;">ctrl+s</span>：Save；
+            </p>
+        </div>
+        <div data-options="region:'west',split:true" title="Explore" style="width: 250px;">
+            <ul id="codeDirectory" class="easyui-tree" url='@Url.Action("GetCodeDirectories", "CodeEditor")'>
+            </ul>
+        </div>
+        <div data-options="region:'center'">
+            <div style="height: 690px;" id="script" class="easyui-tabs"></div>
+        </div>
+    </div>
+
+    <div id="mm" class="easyui-menu" style="width: 120px;">
+        <div onclick="svnOperate('/CodeEditor/CommitCode', 'Commit<br/>', true)" data-options="iconCls:'icon-save'">Commit</div>
+        <div onclick="svnOperate('/CodeEditor/UpdateCode', 'Update<br/>')" data-options="iconCls:'icon-reload'">Update</div>
+        <div onclick="svnOperate('/CodeEditor/CleanupCode', 'Clean up<br/>')" data-options="iconCls:'icon-remove'">Clean up</div>
+        <div onclick="svnOperate('/CodeEditor/RevertCode', 'Revert<br/>', true)" data-options="iconCls:'icon-undo'">Revert</div>
+    </div>
+
+    <div id="loginSVN" class="easyui-dialog" title="Login in" data-options="iconCls:'icon-save',modal:true" style="width: 300px; height: 200px; padding: 10px;">
+        <div style="margin-left: 40px; margin-top: 20px;">
+            <div style="margin-bottom: 10px">
+                Username：<input id="username" class="easyui-textbox">
+            </div>
+            <div style="margin-bottom: 20px">
+                Password：<input id="password" class="easyui-textbox" type="password">
+            </div>
+            <div>
+                <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="login()" style="margin-left: 110px;">
+                    <span style="font-size: 14px;">Login in</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="message" class="easyui-dialog" title="SVN" data-options="iconCls:'icon-save',modal:true" style="width: 300px; height: 200px; padding: 10px;">
+        <div id="messageContent"></div>
+    </div>
+
+
+
+   <link href="~/Scripts/CodeMirror/theme/zamiere.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/theme/visual-studio-light.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/theme/3024-day.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/theme/3024-night.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/theme/ambiance.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/theme/base16-dark.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/theme/base16-light.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/theme/blackboard.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/theme/cobalt.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/theme/colorforth.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/theme/eclipse.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/theme/elegant.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/theme/erlang-dark.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/theme/lesser-dark.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/theme/liquibyte.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/theme/mbo.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/theme/mdn-like.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/theme/midnight.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/theme/monokai.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/theme/neat.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/theme/neo.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/theme/night.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/theme/paraiso-dark.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/theme/paraiso-light.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/theme/pastel-on-dark.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/theme/rubyblue.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/theme/solarized.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/theme/the-matrix.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/theme/tomorrow-night-bright.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/theme/tomorrow-night-eighties.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/theme/ttcn.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/theme/twilight.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/theme/vibrant-ink.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/theme/xq-dark.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/theme/xq-light.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/theme/zenburn.css" rel="stylesheet" />
+
+
+   <link href="~/Scripts/CodeMirror/lib/codemirror.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/addon/hint/show-hint.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/addon/dialog/dialog.css" rel="stylesheet" />
+   <link href="~/Scripts/CodeMirror/addon/display/fullscreen.css" rel="stylesheet" />
+
+    <script src="~/Scripts/CodeMirror/lib/codemirror.js"></script>
+    <script src="~/Scripts/CodeMirror/mode/javascript/javascript.js"></script>
+    <script src="~/Scripts/CodeMirror/addon/hint/show-hint.js"></script>
+    <script src="~/Scripts/CodeMirror/addon/hint/javascript-hint.js"></script>
+    <script src="~/Scripts/CodeMirror/addon/hint/css-hint.js"></script>
+    <script src="~/Scripts/CodeMirror/addon/hint/html-hint.js"></script>
+    <script src="~/Scripts/CodeMirror/addon/hint/xml-hint.js"></script>
+    <script src="~/Scripts/CodeMirror/addon/search/search.js"></script>
+    <script src="~/Scripts/CodeMirror/addon/search/searchcursor.js"></script>
+    <script src="~/Scripts/CodeMirror/addon/dialog/dialog.js"></script>
+    <script src="~/Scripts/CodeMirror/addon/selection/selection-pointer.js"></script>
+    <script src="~/Scripts/CodeMirror/mode/xml/xml.js"></script>
+    <script src="~/Scripts/CodeMirror/mode/css/css.js"></script>
+    <script src="~/Scripts/CodeMirror/mode/vbscript/vbscript.js"></script>
+    <script src="~/Scripts/CodeMirror/mode/htmlmixed/htmlmixed.js"></script>
+    <script src="~/Scripts/CodeMirror/addon/selection/active-line.js"></script>
+    <script src="~/Scripts/CodeMirror/addon/edit/matchbrackets.js"></script>
+    <script src="~/Scripts/CodeMirror/addon/display/fullscreen.js"></script>
+    <script src="~/Scripts/CodeMirror/mode/clike/clike.js"></script>
+    <script src="~/Scripts/CodeMirror/addon/hint/show-hint.js"></script>
+    <script src="~/Scripts/CodeMirror/addon/hint/anyword-hint.js"></script>
+
+
+    <script src="~/Scripts/CodeEditor/Index.js"></script>
+
+</body>
+</html>
+

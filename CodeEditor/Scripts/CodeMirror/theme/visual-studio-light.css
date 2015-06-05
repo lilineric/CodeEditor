@@ -1,0 +1,78 @@
+.cm-s-visual-studio-light.CodeMirror
+{
+    background-color: #fefefe;
+    color:black;
+}
+
+.cm-s-visual-studio-light.CodeMirror .CodeMirror-gutters
+{
+    background-color: #fefefe;
+}
+
+.cm-s-visual-studio-light.CodeMirror .CodeMirror-linenumber
+{
+    color: #0E97A1;
+    background-color: #fefefe;
+}
+
+.cm-s-visual-studio-light.CodeMirror .CodeMirror-matchingbracket
+{
+    color: black;
+    background-color: #dedede;
+}
+
+.cm-s-visual-studio-light.CodeMirror .CodeMirror-linebackground
+{
+    outline: 2px solid #dddddd;
+}
+
+.cm-s-visual-studio-light .CodeMirror-activeline-background,
+.cm-s-visual-studio-light .CodeMirror-activeline .CodeMirror-gutter-elt
+{
+    background: transparent !important;
+}
+
+.cm-s-visual-studio-light .CodeMirror-activeline-background
+{
+    outline: 2px solid #dddddd;
+}
+
+.cm-s-visual-studio-light.CodeMirror .cm-matchhighlight
+{
+    background-color: yellow;
+}
+
+.cm-s-visual-studio-light.CodeMirror .CodeMirror-selectedtext
+{
+    background-color: #ADD6FF;
+}
+
+.cm-s-visual-studio-light.CodeMirror .CodeMirror-selected,
+.cm-s-visual-studio-light.CodeMirror-focused .CodeMirror-selected
+{
+    background: #ADD6FF;
+}
+
+
+.cm-s-visual-studio-light.CodeMirror .cm-atom { color: blue; }
+.cm-s-visual-studio-light.CodeMirror .cm-qualifier { color: #800000; }
+
+/*CodeMirror does not add notation for css...  Which would be really nice. */
+/*.cm-s-visual-studio-light.CodeMirror .cm-property { color: red; }*/
+
+
+.cm-s-visual-studio-light.CodeMirror .cm-def { color: black; }
+.cm-s-visual-studio-light.CodeMirror .cm-keyword { color: blue; }
+.cm-s-visual-studio-light.CodeMirror .cm-comment { color: green; }
+.cm-s-visual-studio-light.CodeMirror .cm-string {color: #800000;}
+.cm-s-visual-studio-light.CodeMirror .cm-string-2 {color: #800000;}
+.cm-s-visual-studio-light.CodeMirror .cm-variable { color: black; }
+.cm-s-visual-studio-light.CodeMirror .cm-variable-2 { color: black; }
+.cm-s-visual-studio-light.CodeMirror .cm-tag { color: #800000; }
+.cm-s-visual-studio-light.CodeMirror .cm-attribute { color: red; }
+.cm-s-visual-studio-light.CodeMirror .cm-property { color: black; }
+
+.CodeMirror[doctype=less] .cm-property,
+.CodeMirror[doctype=css]  .cm-property {
+    color: red !important;
+}
